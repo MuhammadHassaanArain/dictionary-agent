@@ -1,12 +1,13 @@
 import requests
 from agents import function_tool
-
+from rich import print
 
 @function_tool
 def get_meaning(word:str):
     """
     Fetch the definition, part of speech, synonyms, and antonyms for a word.
     """
+    print(" ================================================= Tool is Called =================================================")
     try:
         res = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
         if res.status_code != 200:
