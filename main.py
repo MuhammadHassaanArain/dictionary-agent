@@ -1,7 +1,8 @@
 import chainlit as cl
 from agent import main
 from agents import ItemHelpers
-
+from agents import enable_verbose_stdout_logging
+enable_verbose_stdout_logging()
 
 @cl.on_chat_start
 async def start_chating():
@@ -13,15 +14,6 @@ async def message(message:cl.Message):
     if isinstance(res, str):
         await cl.Message(content=res).send()
         return
-    final_output = ""
-    async for chunck in res.stream_events():
-       if chunck.type == "run_item_stream_event":
-            if chunck.item.type == "tool_call_item":
-                print("Tool call:")
-            elif chunck.item.type == "tool_call_output_item":
-                print("Tool call output:")
-            elif chunck.item.type == "message_output_item":
-                print({ItemHelpers.text_message_output(chunck.item)})
-                final_output = ItemHelpers.text_message_output(chunck.item)
+    final_output = res.final_output
     await cl.Message(content=f"{final_output}").send()
 

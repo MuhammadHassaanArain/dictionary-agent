@@ -22,4 +22,4 @@ config = RunConfig(
     model_provider=external_client,
     tracing_disabled=True
 )
-session = SQLiteSession("user_1","conversation.db")
+session = SQLiteSession("user_1")
